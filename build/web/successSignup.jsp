@@ -3,10 +3,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Logout</title>
+        <title>Success</title>
+         <link rel="icon" href="./logo_flight.jpg">
     </head>
     <body>
-        <h3>You are successfully logout.</h3>
-           <p><a href="Login.jsp">Login here</a></p>
+        <center>  <h1>Account Created Successfully.</h1>
+        <a href="Login.jsp">Login Here</a></center>
     </body>
 </html>

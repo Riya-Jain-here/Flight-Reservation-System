@@ -39,8 +39,7 @@ public class paymentupdate extends HttpServlet {
         double ticketPrice = 0;
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/frs", "root", "your_password");
+            Connection connection = DatabaseConnection.initializeDatabase();
 
             // Fetch `ticket_id` and `ticketPrice` for the given email where payment is pending
             String fetchQuery = "SELECT ticket_id, ticketPrice FROM bookedList WHERE passenger_email = ? AND payment_status = 'Pending' LIMIT 1";

@@ -28,8 +28,8 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         try{
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/frs?useSSL=false&serverTimezone=UTC","root","your_password");
+        Connection connection = DatabaseConnection.initializeDatabase();
+        
         String sql = "SELECT user_id, userName,role FROM signup WHERE email=? AND Created_password=?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, email);

@@ -36,8 +36,6 @@ public class BookTicketServlet extends HttpServlet {
         
         if (session == null || session.getAttribute("user_id") == null) {
              session = request.getSession();
-             //session.setAttribute("Pending_flight_no", flight_no);
-            // Redirect to login page if user is not logged in
             response.sendRedirect("Login.jsp");
             return;
         } 
@@ -60,37 +58,28 @@ public class BookTicketServlet extends HttpServlet {
         String date=request.getParameter("date");
         int no_of_seats= Integer.parseInt(request.getParameter("no_of_seats"));
         double ticketPrice=Double.parseDouble(request.getParameter("ticketPrice"));
-        //int  ticket_id= Integer.parseInt(request.getParameter("ticket_id"));
-        //double totalPrice=Double.parseDouble(request.getParameter("totalPrice").replace("$", ""));
-        double totalPrice = no_of_seats * ticketPrice;
-       /* try {
-            //no_of_seats = Integer.parseInt(request.getParameter("no_of_seats"));
-            //ticketPrice = Double.parseDouble(request.getParameter("ticketPrice").replace("$", ""));
-           // totalPrice = no_of_seats * ticketPrice;
-        } catch (NumberFormatException e) {
-            response.sendRedirect("FlightList.jsp?error=InvalidInput");
-            return;
-        }*/
-
         
-        try {Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/frs", "root", "your_password");
+        double totalPrice = no_of_seats * ticketPrice;
+       
+        try {
+            Connection connection = DatabaseConnection.initializeDatabase();
+            
             // Check seat availability
-            PreparedStatement ps1 = con.prepareStatement("SELECT no_of_seats FROM flightList WHERE flight_id=?");
+            PreparedStatement ps1 = connection.prepareStatement("SELECT no_of_seats FROM flightList WHERE flight_id=?");
             ps1.setInt(1, flight_id);
             ResultSet rs1 = ps1.executeQuery();
 
             if (rs1.next()) {
                 int availableSeats = rs1.getInt("no_of_seats");
                 if (no_of_seats > availableSeats) {
-                    con.rollback();
+                    connection.rollback();
                     response.getWriter().println("Not enough seats available.");
                     return;
                 }
 
             //check for user with pending status
             String checkQuery = "SELECT * FROM bookedList WHERE passenger_email=? AND flight_id=? AND payment_status = 'Pending'";
-            PreparedStatement checkPs = con.prepareStatement(checkQuery);
+            PreparedStatement checkPs = connection.prepareStatement(checkQuery);
             checkPs.setString(1, email);
              checkPs.setInt(2, flight_id);
             ResultSet rs = checkPs.executeQuery();
@@ -102,9 +91,8 @@ public class BookTicketServlet extends HttpServlet {
                 return;
             }
             
-           
                 // Insert booking
-                PreparedStatement ps2 = con.prepareStatement(
+                PreparedStatement ps2 = connection.prepareStatement(
                         "INSERT INTO bookedList (user_id, flight_id, flightName, passengerName, passenger_email, departureDate, no_of_seats, ticketPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 PreparedStatement.RETURN_GENERATED_KEYS);
                 ps2.setInt(1, user_id);
@@ -120,12 +108,12 @@ public class BookTicketServlet extends HttpServlet {
                 int ticket_id = 0;
                  ResultSet rs2 = ps2.getGeneratedKeys();
                  if (rs2.next()) {
-                 ticket_id = rs2.getInt(1); // ✅ Fetch the generated ticket_id
+                 ticket_id = rs2.getInt(1); // Fetch the generated ticket_id
                  System.out.println("Generated ticket_id in BookTicketServlet: " + ticket_id);
                  }
               
                 // Update available seats
-                PreparedStatement ps3 = con.prepareStatement("UPDATE flightList SET no_of_seats = no_of_seats  - ? WHERE flight_id = ?");
+                PreparedStatement ps3 = connection.prepareStatement("UPDATE flightList SET no_of_seats = no_of_seats  - ? WHERE flight_id = ?");
                 ps3.setInt(1, no_of_seats);
                 ps3.setInt(2, flight_id);
                 int rows3=ps3.executeUpdate();
@@ -136,7 +124,7 @@ public class BookTicketServlet extends HttpServlet {
             else {
                 response.getWriter().println("Flight not found.");
             }
-            con.close();
+            connection.close();
         } 
         catch (Exception e) {
             e.printStackTrace();

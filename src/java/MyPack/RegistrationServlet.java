@@ -38,8 +38,7 @@ public class RegistrationServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         try{
-             Class.forName("com.mysql.cj.jdbc.Driver");
-             Connection connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/frs?useSSL=false&serverTimezone=UTC","root","your_password");
+            Connection connection = DatabaseConnection.initializeDatabase();
             
             String checkEmailQuery = "SELECT email FROM signup WHERE email = ?";
             PreparedStatement checkStmt = connection.prepareStatement(checkEmailQuery);
