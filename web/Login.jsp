@@ -8,73 +8,107 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
               rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
               crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
         
         <style>
-            .container-fluid{
-                background-color:lightskyblue;
-                margin-top:-1%;
-                height:58px;
-        }
-        
-        .nav-link{
-                margin-left:20px;
-                font-size: 20px;
-                margin-right: 25px;
-        }
-        
-        .mb-0{
-             margin-left:15px;
-             font-family:monospace;
-             font-style:italic;
-             font-size:25px;
-             font-weight:bold;
-        }
-        
-        .container{
-                position:fixed;
-                margin-top:8%;
-                margin-left:33%;
-                width:420px;
-                height:370px;
-                background:aliceblue;
-                border-radius: 4%;
-        }
-        
-        .login{
-            margin-top:3%;
-            margin-left:3%;
-            width:320px;
-            height:320px;
-            position:fixed;
+            body{
+                background-image: url("Backg.webp");
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-size: 100% 100%;
+                  
+            }
             
-        }
+            .container-fluid{
+                background-color:#3399ff;
+                margin-top:-1%;
+                height:75px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .nav-link{
+                margin-left:5px;
+                font-size: 23px;
+                margin-right: 30px;
+            }
+
+            .mb-0{
+                margin-left:60px;
+                font-family:monospace;
+                font-style:italic;
+                font-size:30px;
+                font-weight:bold;
+            }
+            
+            .logo-img {
+                height: 60px;
+                width: 60px;
+                margin-right: 10px;
+                vertical-align: middle;
+                background: blue;
+                mix-blend-mode:multiply;
+                opacity: 0.9;
+                border-radius: 100%;
+                object-fit: cover;
+            }
+
         
-        .btn-primary{
-            width:95%;
-            margin-left:2%;
-        }
-        
-        p{
-            margin-left: 2%;
-        }
+            .container-form{
+                font-family: 'Poppins', sans-serif;
+                display: flex;
+                justify-content: center;
+                padding-top: 100px;
+                align-items: center;
+                min-height: calc(100vh - 75px - 180px);
+                
+            }
+
+            .login{
+                width: 400px;
+                padding: 30px;
+                background-color: rgba(255, 255, 255, 0.85); 
+                border-radius: 10px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+
+            }
+
+            .btn-primary{
+                width:95%;
+                margin-left:2%;
+            }
+
+            p{
+                margin-left: 2%;
+            }
+
+            footer {
+                position: relative;
+                bottom: 0;
+                width: 100%;
+            }
             
         </style>
     </head>
     
     <body>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <nav class="navbar navbar-expand-lg fixed-top">
       <div class="container-fluid">
-      <span class="navbar-brand mb-0 h1">Fly Now</span>
+      <span class="navbar-brand mb-0 h1">
+           <img src="logo_flight.jpg" alt="Logo" class="logo-img">
+          Fly Now</span>
       <div class="navbar-nav">
         <a class="nav-link " href="index.html">Home</a>
-        <a class="nav-link" href="FlightList.jsp">Flight List</a>
+        <a class="nav-link" href="ContactUs.jsp">Contact Us</a>
+        <a class="nav-link" href="FlightList.jsp">Flights</a>
         <a class="nav-link active" aria-current="page" href="Login.jsp">Login</a>
         <a class="nav-link" href="Signup.jsp">Signup</a>
+       
       </div>
   </div>
 </nav> 
         
-    <div class="container">
+    <div class="container-form">
         <form class="login" method="post" action="LoginServlet" >
            <div class="mb-3">
                <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -84,6 +118,9 @@
                <label for="exampleInputPassword1" class="form-label">Password</label>
                <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
            </div>
+            
+            <input type="hidden" name="flight_id" value="${param.flight_id}" />
+            
            <br>
         <button type="submit" class="btn btn-primary">login</button>
            <br><br>
@@ -91,5 +128,43 @@
        </form>  
        </div>
       
+        <footer class="bg-light text-center text-lg-start mt-5">
+    <div class="container p-4">
+        <div class="row">
+            <!-- About -->
+            <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase">Fly Now</h5>
+                <p>
+                    Your trusted partner for safe and affordable flight bookings across India and beyond.
+                </p>
+            </div>
+
+            <!-- Useful Links -->
+            <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Quick Links</h5>
+                <ul class="list-unstyled mb-0">
+                    <li><a href="index.html" class="text-primary text-decoration-none fw-normal">Home</a></li>
+                    <li><a href="FlightList.jsp" class="text-primary text-decoration-none fw-normal">Flights</a></li>
+                    <li><a href="Login.jsp" class="text-primary text-decoration-none fw-normal">Login</a></li>
+                    <li><a href="Signup.jsp" class="text-primary text-decoration-none fw-normal">Signup</a></li>
+                    <li><a href="ContactUs.jsp" class="text-primary text-decoration-none fw-normal">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
+                <h5 class="text-uppercase">Contact</h5>
+                <p><i class="bi bi-envelope"></i> support@flynow.com</p>
+                <p><i class="bi bi-phone"></i> +91 99999xxxxx</p>
+                <p><i class="bi bi-geo-alt"></i> Delhi, India</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center p-3 bg-primary text-white">
+        © 2025 Fly Now | All rights reserved
+    </div>
+</footer>
+            
     </body>
 </html>

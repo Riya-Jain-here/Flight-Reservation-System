@@ -16,7 +16,11 @@ public class LogoutServlet extends HttpServlet {
             session.invalidate(); 
             System.out.println("Logout succesfully");
         }
-        response.sendRedirect("Login.jsp"); 
+        response.setContentType("text/html");
+        response.getWriter().println("<html><body><script>");
+        response.getWriter().println("sessionStorage.clear();");
+        response.getWriter().println("window.location.href = 'Login.jsp';");
+        response.getWriter().println("</script></body></html>");
     }
 
     @Override

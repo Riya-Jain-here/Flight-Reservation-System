@@ -9,7 +9,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="icon" href="./logo_flight.jpg">
-        <title>Available Flights</title>
+        <title>You</title>
          <link rel="icon" href="./logo_flight.jpg">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
               rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
@@ -109,6 +109,7 @@
             border-radius: 5px;
             font-size: 100%;
             cursor: pointer;
+            /*transition: background-color 0.3s ease;*/
             color: blue;
             background-color:white;
             border: 1px solid blue;
@@ -203,16 +204,8 @@
       <div class="navbar-nav">
         <a class="nav-link"  href="index.html">Home</a>
         <a class="nav-link" href="ContactUs.jsp">Contact Us</a>
-        
-        <% if (username == null) { %>
-                        <a class="nav-link active" aria-current="page" href="FlightList.jsp">Flights</a>
-                        <a class="nav-link" href="Login.jsp">Login</a>
-                        <a class="nav-link" href="Signup.jsp">Signup</a>
-                    <% } else { %>
-                        <a class="nav-link" href="UserLogin.jsp">You</a>
-                        <button onclick="logout()"  class="logout-btn">Logout</button>
-                      
-                    <% } %>      
+        <a class="nav-link active" aria-current="page" href="UserLogin.jsp">You</a>
+         <button onclick="logout()"  class="logout-btn">Logout</button>
         
       </div>
   </div>
@@ -223,7 +216,7 @@
     <center> <h2>Find the best flights and book in seconds</h2></center><br><br>
     
     <div class="condiv">
-    <form action="FlightList.jsp" method="GET" class="searchcontain">
+    <form action="UserLogin.jsp" method="GET" class="searchcontain">
         <div class="field-group">
        Departure:<input type="text" name="fromCity" >
         </div>
@@ -365,14 +358,13 @@
         © 2025 Fly Now | All rights reserved
     </div>
 </footer>
-    
-     <script>
+    <script>
             function logout() {
                 sessionStorage.clear();
                 localStorage.clear();
                 window.location.href = "LogoutServlet";
             }
         </script>
-        
     </body>
 </html>
+

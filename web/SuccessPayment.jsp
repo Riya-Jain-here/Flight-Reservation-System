@@ -7,6 +7,7 @@
          <link rel="icon" href="./logo_flight.jpg">
     </head>
     <body>
+        <br>
     <center><h3>Payment has been processed.<br>Thank you<br></h3>
        <button onclick="logout()">Logout</button>
     </center>

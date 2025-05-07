@@ -7,6 +7,7 @@
          <link rel="icon" href="./logo_flight.jpg">
     </head>
     <body>
+        <br>
     <center>Your booking is confirmed.<br>Thank you</center>
     </body>
 </html>

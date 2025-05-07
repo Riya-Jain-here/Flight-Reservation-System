@@ -1,16 +1,19 @@
+<% 
+    String username = (String) session.getAttribute("userName"); 
+%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Flight Reservation System</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Contact Us</title>
         <link rel="icon" href="./logo_flight.jpg">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
               rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
               crossorigin="anonymous">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-
+        
         <style>
             body{
                 background-image: url("Backg.webp");
@@ -49,7 +52,7 @@
                 width: 60px;
                 margin-right: 10px;
                 vertical-align: middle;
-                background: blue;
+                background: lightskyblue;
                 mix-blend-mode:multiply;
                 opacity: 0.9;
                 border-radius: 100%;
@@ -62,16 +65,41 @@
                 width: 100%;
             }
 
-            .card-img-top {
-                height: 200px;
-                object-fit: cover;
-            }
-
-            .shadow {
+            .contact-section {
+                background-color: rgba(255, 255, 255, 0.85);
+                border-radius: 12px;
+                max-width: 800px;
+                margin: 100px auto 50px auto;
+                padding: 30px;
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             }
-            
-            
+
+            .contact-section h2 {
+                text-align: center;
+                margin-bottom: 25px;
+                color: #0056b3;
+            }
+
+            .contact-info {
+                margin-top: 20px;
+            }
+
+            .contact-info i {
+                margin-right: 10px;
+                color: #0d6efd;
+            }
+
+            .social-icons a {
+                font-size: 24px;
+                margin-right: 15px;
+                color: #0d6efd;
+                text-decoration: none;
+            }
+
+            .social-icons a:hover {
+                color: #0056b3;
+            }
+
             .logout-btn {
                 margin-right: 40px;
                 margin-top: 5px;
@@ -90,64 +118,74 @@
                 background-color: #004494;
             }
 
-        </style>
+    </style>
     </head>
-
     <body>
         <nav class="navbar navbar-expand-lg fixed-top">
-            <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1">
-                    <img src="logo_flight.jpg" alt="Logo" class="logo-img">
-                    Fly Now
-                </span>
-                <div class="navbar-nav" id="navbarLinks"> </div>
-            </div>
-        </nav>
-
-        <div class="container text-center mt-5">
-            <br>
-            <h1 class="display-5 fw-bold text-white">Welcome to Fly Now</h1>
-            <p class="lead text-light">Book affordable, reliable flights in seconds — from anywhere, to anywhere.</p>
-        </div>
-
-
-        <div class="container mt-5 p-4 bg-light rounded shadow">
-            <h2 class="text-center mb-4 text-primary">Popular Destinations</h2>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="delhi.webp" class="card-img-top" alt="Delhi">
-                        <div class="card-body">
-                            <h5 class="card-title">Delhi</h5>
-                            <p class="card-text">Explore the heart of India with cultural landmarks, cuisine, and vibrant markets.</p>
-                            <a href="FlightList.jsp?to=Delhi" class="btn btn-outline-primary">Book Now</a>
-                        </div>
-                    </div>
+      <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1">
+          <img src="logo_flight.jpg" alt="Logo" class="logo-img">Fly Now
+      </span>
+      <div class="navbar-nav">
+        <a class="nav-link" href="index.html">Home</a>
+         <a class="nav-link active" aria-current="page" href="ContactUs.jsp">Contact Us</a>
+        
+        <% if (username == null) { %>
+                        <a class="nav-link" href="FlightList.jsp">Flights</a>
+                        <a class="nav-link" href="Login.jsp">Login</a>
+                        <a class="nav-link" href="Signup.jsp">Signup</a>
+                    <% } else { %>
+                        <a class="nav-link" href="UserLogin.jsp">You</a>
+                        <button onclick="logout()"  class="logout-btn">Logout</button>
+                    <% } %>
+                    
+      
+      </div>
+  </div>
+</nav>
+        
+    <div class="contact-section">
+        <h2>Contact Us</h2>
+        <form action="ContactServlet" method="post">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <input type="text" class="form-control" name="name" placeholder="Your Name" required>
                 </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="mumbai.webp" class="card-img-top" alt="Mumbai">
-                        <div class="card-body">
-                            <h5 class="card-title">Mumbai</h5>
-                            <p class="card-text">Fly to the city of dreams — perfect for business, Bollywood, and beaches.</p>
-                            <a href="FlightList.jsp?to=Mumbai" class="btn btn-outline-primary">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="goa.jpg" class="card-img-top" alt="Goa">
-                        <div class="card-body">
-                            <h5 class="card-title">Goa</h5>
-                            <p class="card-text">Enjoy the perfect beach holiday with stunning views and lively nightlife.</p>
-                            <a href="FlightList.jsp?to=Goa" class="btn btn-outline-primary">Book Now</a>
-                        </div>
-                    </div>
+                <div class="col-md-6 mb-3">
+                    <input type="email" class="form-control"  name="email" placeholder="Your Email" required>
                 </div>
             </div>
+            <div class="mb-3">
+                <textarea class="form-control" rows="4"  name="message" placeholder="Your Message" required></textarea>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-primary" type="submit">Send Message</button>
+            </div>
+        </form>
+        
+        <%
+    String successMessage = (String) request.getAttribute("successMessage");
+    if (successMessage != null) {
+        %>
+        <div class="alert alert-success mt-3 text-center" role="alert">
+            <%= successMessage %>
         </div>
+        <%
+            }
+        %>
 
-        <footer class="bg-light text-center text-lg-start mt-5">
+        <div class="contact-info mt-4">
+            <p><i class="bi bi-envelope"></i> support@flynow.com</p>
+            <p><i class="bi bi-telephone"></i> +91 98765 43210</p>
+            <div class="social-icons">
+                <a href="#"><i class="bi bi-facebook"></i></a>
+                <a href="#"><i class="bi bi-twitter"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+        
+         <footer class="bg-light text-center text-lg-start mt-5">
             <div class="container p-4">
                 <div class="row">
                     <!-- About -->
@@ -186,33 +224,6 @@
         </footer>
         
         <script>
-             window.onload = function() {
-                let navbarLinks = document.getElementById('navbarLinks');
-                let email = sessionStorage.getItem('email'); 
-                console.log("User Email from sessionStorage:", email);
-                // Check if the user is logged in
-                if (email) {
-                    // Logged-in user - show 'Logout' and 'Profile' links
-                    navbarLinks.innerHTML = `
-                        <a class="nav-link" href="index.html">Home</a>
-                        <a class="nav-link" href="ContactUs.jsp">Contact Us</a>
-                        <a class="nav-link" href="UserLogin.jsp">You</a>
-                        <button onclick="logout()"  class="logout-btn">Logout</button>
-                    `;
-             } else {
-                    // Not logged-in user - show 'Login' and 'Signup' links
-                    navbarLinks.innerHTML = `
-                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
-                        <a class="nav-link" href="ContactUs.jsp">Contact Us</a>
-                        <a class="nav-link" href="FlightList.jsp">Flights</a>
-                        <a class="nav-link" href="Login.jsp">Login</a>
-                        <a class="nav-link" href="Signup.jsp">Signup</a>
-                    `;
-                  }
-            };
-        </script>
-        
-         <script>
             function logout() {
                 sessionStorage.clear();
                 localStorage.clear();

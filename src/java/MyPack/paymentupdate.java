@@ -1,6 +1,5 @@
 package MyPack;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -55,10 +54,10 @@ public class paymentupdate extends HttpServlet {
                 return;
             }
 
-            // Hash CVV for security
+            // Hash CVV
             String hashedCVV = hashCVV(cvv);
 
-            // Insert payment details
+            //insert payment details
             String insertPaymentQuery = "INSERT INTO payment (name, ticket_id, user_email, cvv_hash, amount, payment_status) VALUES (?, ?, ?, ?, ?, 'Completed')";
             PreparedStatement ps = connection.prepareStatement(insertPaymentQuery);
             ps.setString(1, name);
@@ -77,7 +76,9 @@ public class paymentupdate extends HttpServlet {
                 updatePs.executeUpdate();
 
                 response.sendRedirect("SuccessPayment.jsp");
-            } else {
+            } 
+            
+            else {
                 response.sendRedirect("Payment.jsp?error=PaymentFailed");
             }
 

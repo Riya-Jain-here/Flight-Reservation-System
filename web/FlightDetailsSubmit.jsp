@@ -7,8 +7,9 @@
          <link rel="icon" href="./logo_flight.jpg">
     </head>
     <body>
+        <br>
          <center><h1>Flight details successfully submitted.<br> 
-                 <a href="adminDashboard.jsp">Dashboard</a>
+                 <a href="adminDashboard.jsp">Go to Dashboard</a>
             </center>  
     </body>
 </html>

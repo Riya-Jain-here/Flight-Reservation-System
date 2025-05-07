@@ -1,14 +1,12 @@
 package MyPack;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -36,14 +34,41 @@ public class BookTicketServlet extends HttpServlet {
         
         if (session == null || session.getAttribute("user_id") == null) {
              session = request.getSession();
-            response.sendRedirect("Login.jsp");
+             
+             //add line
+             session.setAttribute("selected_flight_id", flight_no);
+             
+            response.sendRedirect("Login.jsp?fromBooking=true");
             return;
         } 
+         
+        try (Connection connection = DatabaseConnection.initializeDatabase()) {
+            int user_id = (int) session.getAttribute("user_id");
+
+            PreparedStatement checkStmt = connection.prepareStatement(
+                    "SELECT * FROM bookedList WHERE user_id = ? AND flight_id = ? AND payment_status = 'Pending'"
+            );
+            checkStmt.setInt(1, user_id);
+            checkStmt.setInt(2, flight_no);
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next()) {
+                // Already booked but pending
+                request.setAttribute("errorMessage", "You have already booked this flight. Please complete the payment.");
+                request.getRequestDispatcher("Already_Booked_Tickets.jsp").forward(request, response);
+            }
         
         else {
             // Redirect to BookTicket.jsp with selected flight details
             request.setAttribute("flight_no", flight_no);
             request.getRequestDispatcher("BookTicket.jsp").forward(request, response);
+        }
+           
+    } 
+        
+        catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().println("Internal server error.");
         }
     }
 
@@ -51,6 +76,14 @@ public class BookTicketServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         Integer user_id = (session != null) ? (Integer) session.getAttribute("user_id") : null;
+        
+        
+        if (user_id == null) {
+            response.sendRedirect("Login.jsp");
+            return;
+        }
+        
+        
         int flight_id = Integer.parseInt(request.getParameter("flight_id"));
         String flightName=request.getParameter("flightName");
         String passengerName=request.getParameter("passengerName");
@@ -103,6 +136,7 @@ public class BookTicketServlet extends HttpServlet {
                 ps2.setString(6, date);
                 ps2.setInt(7, no_of_seats);
                 ps2.setDouble(8, totalPrice);
+                
                 int rows2=ps2.executeUpdate();
 
                 int ticket_id = 0;
@@ -118,16 +152,19 @@ public class BookTicketServlet extends HttpServlet {
                 ps3.setInt(2, flight_id);
                 int rows3=ps3.executeUpdate();
                 
-                RequestDispatcher dispatcher=request.getRequestDispatcher("Payment.jsp?email=" +email + "&ticket_id=" + ticket_id + "&totalPrice=" + totalPrice);
+                request.setAttribute("bookingMessage", "Ticket booked successfully! Please proceed with payment.");
+                
+                RequestDispatcher dispatcher=request.getRequestDispatcher("Payment.jsp?email=" +email + "&ticket_id=" + ticket_id + "&totalPrice=" + totalPrice + "&msg=Ticket+booked+successfully!+Please+proceed+with+payment.");
                 dispatcher.forward(request,response);
             }
             else {
-                response.getWriter().println("Flight not found.");
+                response.getWriter().println("BookTicket.jsp?error=FlightNotFound");
             }
             connection.close();
         } 
         catch (Exception e) {
             e.printStackTrace();
+            response.getWriter().println("BookTicket.jsp?error=BookingFailed");
         }
     }
 }

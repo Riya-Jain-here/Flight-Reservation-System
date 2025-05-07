@@ -7,8 +7,9 @@
          <link rel="icon" href="./logo_flight.jpg">
     </head>
     <body>
+        <br>
         <center><h1>Email already registered!</h1>
-        <a href="Signup.jsp">Please Register with different email id.</a>
+        <a href="Signup.jsp">Please register with different email id.</a>
     </center>   
     </body>
 </html>
